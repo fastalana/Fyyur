@@ -303,18 +303,20 @@ def delete_venue(venue_id):
 #  ----------------------------------------------------------------
 @app.route('/artists')
 def artists():
-  # TODO: replace with real data returned from querying the database
-  data=[{
-    "id": 4,
-    "name": "Guns N Petals",
-  }, {
-    "id": 5,
-    "name": "Matt Quevedo",
-  }, {
-    "id": 6,
-    "name": "The Wild Sax Band",
-  }]
-  return render_template('pages/artists.html', artists=data)
+  # TODO: replace with real data returned from querying the database - DONE
+  # data=[{
+  #   "id": 4,
+  #   "name": "Guns N Petals",
+  #   }, {
+  #   "id": 5,
+  #   "name": "Matt Quevedo",
+  #   }, {
+  #   "id": 6,
+  #   "name": "The Wild Sax Band",
+  # }]
+  # return render_template('pages/artists.html', artists=data)
+  artist = Artist.query.order_by(Artist.name).all()
+  return render_template('pages/artists.html', artists=artist)
 
 @app.route('/artists/search', methods=['POST'])
 def search_artists():
@@ -496,7 +498,7 @@ def create_artist_submission():
       flash('An error occurred. Artist ' + new_artist.name + ' could not be listed.')
     else:
       # TODO on successful db insert, flash success - DONE
-      flash('Venue ' + request.form['name'] + ' was successfully listed!')
+      flash('Artist ' + request.form['name'] + ' was successfully listed!')
   return render_template('pages/home.html')
 
 
