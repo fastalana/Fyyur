@@ -530,14 +530,27 @@ def create_shows():
 
 @app.route('/shows/create', methods=['POST'])
 def create_show_submission():
-  # called to create new shows in the db, upon submitting new show listing form
-  # TODO: insert form data as a new Show record in the db, instead
-
-  # on successful db insert, flash success
-  flash('Show was successfully listed!')
-  # TODO: on unsuccessful db insert, flash an error instead.
-  # e.g., flash('An error occurred. Show could not be listed.')
-  # see: http://flask.pocoo.org/docs/1.0/patterns/flashing/
+  # TODO: insert form data as a new Show record in the db, instead - DONE
+  # TODO: modify data to be the data object returned from db insertion - DONE
+  error = False
+  try:
+    new_show = Show(
+      artist_id = request.form['artist_id'],
+      venue_id = request.form['venue_id'],
+      start_time = request.form['start_time']
+    )
+    db.session.add(new_show)
+    db.session.commit()
+  except:
+    db.session.rollback()
+  finally:
+    db.session.close()
+    if error:
+      # TODO: on unsuccessful db insert, flash an error instead. - DONE
+      flash('An error occurred. Your show could not be listed.')
+    else:
+      # TODO on successful db insert, flash success - DONE
+      flash('Show was successfully listed!')
   return render_template('pages/home.html')
 
 @app.errorhandler(404)
