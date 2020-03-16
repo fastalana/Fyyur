@@ -97,6 +97,34 @@ class Artist(db.Model):
 class Show(db.Model):
   __tablename__ = 'shows'
 
+  id = db.Column(db.Integer, primary_key = True)
   venue_id = db.Column(db.Integer, db.ForeignKey('venues.id'), primary_key = True) #venues is the table name, not the name of the class
   artist_id = db.Column(db.Integer, db.ForeignKey('artists.id'), primary_key = True) #artists is the table name, not the name of the class
   start_time = db.Column(db.String(120))
+
+  venue = db.relationship('Venue') # allows us to call Venue fields on Show
+  artist = db.relationship('Artist') # allows us to call Artist fields on Show
+
+  #returns a dictionary of artists for the show
+  def show_artist(self):
+    return {
+        'artist_id' : self.artist_id,
+        'artist_name' : self.artist.name,
+        'artist_image_link' : self.artist.image_link
+        'start_time' : self.start_time
+    }
+
+  #returns a dictionary of venues for the show
+  def show_venue(self):
+    return {
+        'venue_id' : self.venue_id,
+        'venue_name' : self.venue.name,
+        'venue_image_link' : self.venue.image_link
+        'start_time' : self.start_time
+    }
+
+
+
+
+
+
