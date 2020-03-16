@@ -104,7 +104,15 @@ def show_venue(venue_id):
   # shows the venue page with the given venue_id
   # TODO: replace with real venue data from the venues table, using venue_id
   venue = Venue.query.get(venue_id)
+
+  # format_datetime(value, format='medium')
+
+  # past_shows = list(filter(lambda x: format_datetime(x.start_time, format = 'medium') < datetime.today(), venue.shows))
   data = venue.venue_to_dictionary()
+
+  # data['past_shows'] = past_shows
+  # data['past_shows_count'] = len(past_shows)
+
   return render_template('pages/show_venue.html', venue=data)
 
 #  Create Venue
@@ -297,7 +305,7 @@ def shows():
       'artist_id' : show.artist_id,
       'artist_name' : show.artist.name,
       'artist_image_link' : show.artist.image_link,
-      'start_time' : show.start_time
+      'start_time' : str(show.start_time)
       })
   return render_template('pages/shows.html', shows=data)
 

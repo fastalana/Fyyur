@@ -100,7 +100,7 @@ class Show(db.Model):
   id = db.Column(db.Integer, primary_key = True)
   venue_id = db.Column(db.Integer, db.ForeignKey('venues.id'), primary_key = True) #venues is the table name, not the name of the class
   artist_id = db.Column(db.Integer, db.ForeignKey('artists.id'), primary_key = True) #artists is the table name, not the name of the class
-  start_time = db.Column(db.String(120))
+  start_time = db.Column(db.DateTime, nullable = False)
 
   venue = db.relationship('Venue') # allows us to call Venue fields on Show
   artist = db.relationship('Artist') # allows us to call Artist fields on Show
