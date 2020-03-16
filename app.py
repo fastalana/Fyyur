@@ -29,7 +29,7 @@ from models import db, Artist, Venue, Show
 app = Flask(__name__)
 moment = Moment(app)
 app.config.from_object('config')
-# db.init_app(app)
+db.init_app(app)
 
 # TODO: connect to a local postgresql database - DONE
 migrate = Migrate(app, db)
@@ -94,8 +94,8 @@ def venues():
             'id': venue.id,
             'name': venue.name,
             # TODO: num_shows should be aggregated based on number of upcoming shows per venue.
-            'num_upcoming_shows': len(list(filter(lambda x: x.start_time > datetime.today(),
-                                                  venue.shows)))
+            # 'num_upcoming_shows': len(list(filter(lambda x: x.start_time > datetime.today(),
+            #                                       venue.shows)))
         }
         if venue.city == prev_city and venue.state == prev_state:
             tmp['venues'].append(venue_data)

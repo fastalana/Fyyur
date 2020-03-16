@@ -8,7 +8,7 @@ from flask_sqlalchemy import SQLAlchemy
 # App Config.
 #----------------------------------------------------------------------------#
 
-db = SQLAlchemy(app)
+db = SQLAlchemy()
 
 #----------------------------------------------------------------------------#
 # Models.
@@ -31,7 +31,7 @@ class Venue(db.Model):
   seeking_description = db.Column(db.String(500))
   # TODO: implement any missing fields, as a database migration using Flask-Migrate - DONE
 
-  artists = ('Artist', secondary='shows') #relates Venue to Show via Artist
+  artists = db.relationship('Artist', secondary = 'shows') #relates Venue to Show via Artist
   shows = db.relationship('Show', backref='Venue', lazy=True) #Show and Venue are the name of the model class, not the name of the table
 
   # return a dictionary of venues
@@ -97,7 +97,7 @@ class Artist(db.Model):
 class Show(db.Model):
   __tablename__ = 'shows'
 
-  id = db.Column(db.Integer, primary_key = True)
+  # id = db.Column(db.Integer, primary_key = True)
   venue_id = db.Column(db.Integer, db.ForeignKey('venues.id'), primary_key = True) #venues is the table name, not the name of the class
   artist_id = db.Column(db.Integer, db.ForeignKey('artists.id'), primary_key = True) #artists is the table name, not the name of the class
   start_time = db.Column(db.String(120))
@@ -110,7 +110,7 @@ class Show(db.Model):
     return {
         'artist_id' : self.artist_id,
         'artist_name' : self.artist.name,
-        'artist_image_link' : self.artist.image_link
+        'artist_image_link' : self.artist.image_link,
         'start_time' : self.start_time
     }
 
@@ -119,7 +119,7 @@ class Show(db.Model):
     return {
         'venue_id' : self.venue_id,
         'venue_name' : self.venue.name,
-        'venue_image_link' : self.venue.image_link
+        'venue_image_link' : self.venue.image_link,
         'start_time' : self.start_time
     }
 
