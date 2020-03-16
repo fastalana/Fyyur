@@ -31,13 +31,28 @@ class Venue(db.Model):
   seeking_description = db.Column(db.String(500))
   # TODO: implement any missing fields, as a database migration using Flask-Migrate - DONE
 
-  artists = ('Artist', secondary='shows') #relates Venues to Shows via Artist
+  artists = ('Artist', secondary='shows') #relates Venue to Show via Artist
   shows = db.relationship('Show', backref='Venue', lazy=True) #Show and Venue are the name of the model class, not the name of the table
+
+  # return a dictionary of venues
+  def venue_to_dictionary(self):
+    return{
+        'id' : self.id,
+        'name' : self.name,
+        'city' : self.city,
+        'state' : self.state,
+        'address' : self.address,
+        'phone' : self.phone,
+        'image_link' : self.image_link,
+        'facebook_link' : self.facebook_link,
+        'genres' : self.genres,
+        'website' : self.website,
+        'seeking_talent' : self.seeking_talent,
+        'seeking_description' : self.seeking_description
+    }
 
   def __repr__(self):
     return f'<Venue Id: {self.id}, Name: {self.name}>'
-
-
 
 class Artist(db.Model):
   __tablename__ = 'artists'
@@ -58,8 +73,25 @@ class Artist(db.Model):
   venues = db.relationship('Venue', secondary='shows') #relates Artist to Show via Venue
   shows = db.relationship('Show', backref = 'Artist', lazy = True) #Show and Artist are the name of the model class, not the name of the table
 
-    def __repr__(self):
-    	return f'<Artist Id: {self.id}, Name: {self.name}>'
+  # return a dictionary of artists
+  def artist_to_dictionary(self):
+    return{
+        'id' : self.id,
+        'name' : self.name,
+        'city' : self.city,
+        'state' : self.state,
+        'phone' : self.phone,
+        'genres' : self.genres,
+        'image_link' : self.image_link,
+        'facebook_link' : self.facebook_link,
+        'website' : self.website,
+        'seeking_talent' : self.seeking_talent,
+        'seeking_description' : self.seeking_description
+    }
+
+
+  def __repr__(self):
+    return f'<Artist Id: {self.id}, Name: {self.name}>'
 
 # TODO Implement Show and Artist models, and complete all model relationships and properties, as a database migration. - DONE
 class Show(db.Model):
