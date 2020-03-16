@@ -105,13 +105,16 @@ def show_venue(venue_id):
   # TODO: replace with real venue data from the venues table, using venue_id
   venue = Venue.query.get(venue_id)
 
-  # format_datetime(value, format='medium')
+  past_shows = list(filter(lambda x: x.start_time < datetime.today(), venue.shows))
+  upcoming_shows = list(filter(lambda x: x.start_time >= datetime.today(), venue.shows))
 
-  # past_shows = list(filter(lambda x: format_datetime(x.start_time, format = 'medium') < datetime.today(), venue.shows))
   data = venue.venue_to_dictionary()
 
-  # data['past_shows'] = past_shows
-  # data['past_shows_count'] = len(past_shows)
+  data['past_shows'] = past_shows
+  data['past_shows_count'] = len(past_shows)
+
+  # data['upcoming_shows'] = upcoming_shows
+  # data['upcoming_shows_count'] = len(upcoming_shows)
 
   return render_template('pages/show_venue.html', venue=data)
 
