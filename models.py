@@ -66,7 +66,7 @@ class Artist(db.Model):
   image_link = db.Column(db.String(500))
   facebook_link = db.Column(db.String(120))
   website = db.Column(db.String(120))
-  seeking_talent = db.Column(db.Boolean, nullable = False, default = False)
+  seeking_venue = db.Column(db.Boolean, nullable = False, default = False)
   seeking_description = db.Column(db.String(500))
   # TODO: implement any missing fields, as a database migration using Flask-Migrate - DONE
 
@@ -85,7 +85,7 @@ class Artist(db.Model):
         'image_link' : self.image_link,
         'facebook_link' : self.facebook_link,
         'website' : self.website,
-        'seeking_talent' : self.seeking_talent,
+        'seeking_venue' : self.seeking_venue,
         'seeking_description' : self.seeking_description
     }
 
@@ -97,7 +97,7 @@ class Artist(db.Model):
 class Show(db.Model):
   __tablename__ = 'shows'
 
-  # id = db.Column(db.Integer, primary_key = True)
+  id = db.Column(db.Integer, primary_key = True)
   venue_id = db.Column(db.Integer, db.ForeignKey('venues.id'), primary_key = True) #venues is the table name, not the name of the class
   artist_id = db.Column(db.Integer, db.ForeignKey('artists.id'), primary_key = True) #artists is the table name, not the name of the class
   start_time = db.Column(db.String(120))
