@@ -437,7 +437,7 @@ def create_artist_submission():
       flash('An error occurred. Artist ' + new_artist.name + ' could not be listed.')
     else:
       # TODO on successful db insert, flash success - DONE
-      flash('Artist ' + new_artist.name + ' was successfully listed!')
+      flash('Artist ' + request.form['name'] + ' was successfully listed!')
   return render_template('pages/home.html')
 
 
