@@ -28,11 +28,14 @@ from models import db, Artist, Venue, Show
 
 app = Flask(__name__)
 moment = Moment(app)
+# db.init_app(app)
 app.config.from_object('config')
 db.init_app(app)
 
+
 # TODO: connect to a local postgresql database - DONE
 migrate = Migrate(app, db)
+
 
 #----------------------------------------------------------------------------#
 # Filters.
@@ -434,7 +437,7 @@ def create_artist_submission():
       flash('An error occurred. Artist ' + new_artist.name + ' could not be listed.')
     else:
       # TODO on successful db insert, flash success - DONE
-      flash('Artist ' + request.form['name'] + ' was successfully listed!')
+      flash('Artist ' + new_artist.name + ' was successfully listed!')
   return render_template('pages/home.html')
 
 
