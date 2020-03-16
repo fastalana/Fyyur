@@ -29,12 +29,15 @@ class Venue(db.Model):
   website = db.Column(db.String(120))
   seeking_talent = db.Column(db.Boolean, nullable = False, default = False)
   seeking_description = db.Column(db.String(500))
+  # TODO: implement any missing fields, as a database migration using Flask-Migrate - DONE
+
+  artists = ('Artist', secondary='shows') #relates Venues to Shows via Artist
   shows = db.relationship('Show', backref='Venue', lazy=True) #Show and Venue are the name of the model class, not the name of the table
 
   def __repr__(self):
     return f'<Venue Id: {self.id}, Name: {self.name}>'
 
-    # TODO: implement any missing fields, as a database migration using Flask-Migrate - DONE
+
 
 class Artist(db.Model):
   __tablename__ = 'artists'
@@ -50,9 +53,13 @@ class Artist(db.Model):
   website = db.Column(db.String(120))
   seeking_talent = db.Column(db.Boolean, nullable = False, default = False)
   seeking_description = db.Column(db.String(500))
+  # TODO: implement any missing fields, as a database migration using Flask-Migrate - DONE
+
+  venues = db.relationship('Venue', secondary='shows') #relates Artist to Show via Venue
   shows = db.relationship('Show', backref = 'Artist', lazy = True) #Show and Artist are the name of the model class, not the name of the table
 
-    # TODO: implement any missing fields, as a database migration using Flask-Migrate - DONE
+    def __repr__(self):
+    	return f'<Artist Id: {self.id}, Name: {self.name}>'
 
 # TODO Implement Show and Artist models, and complete all model relationships and properties, as a database migration. - DONE
 class Show(db.Model):
