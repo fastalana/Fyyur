@@ -37,7 +37,7 @@ Fyyur is a musical venue and artist booking site that facilitates the discovery 
   ```
 
 Overall:
-* Models are located in the `MODELS` `models.py`.
+* Models are located in `models.py`.
 * Controllers are also located in `app.py`.
 * The web frontend is located in `templates/`, which builds static assets deployed to the web server at `static/`.
 * Web forms for creating data are located in `form.py`
