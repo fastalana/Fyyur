@@ -97,7 +97,7 @@ class Artist(db.Model):
 class Show(db.Model):
   __tablename__ = 'shows'
 
-  id = db.Column(db.Integer, primary_key = True)
+  id = db.Column(db.Integer, primary_key = True, autoincrement = True)
   venue_id = db.Column(db.Integer, db.ForeignKey('venues.id'), primary_key = True) #venues is the table name, not the name of the class
   artist_id = db.Column(db.Integer, db.ForeignKey('artists.id'), primary_key = True) #artists is the table name, not the name of the class
   start_time = db.Column(db.DateTime, nullable = False)
