@@ -31,8 +31,7 @@ class Venue(db.Model):
   seeking_description = db.Column(db.String(500))
   # TODO: implement any missing fields, as a database migration using Flask-Migrate - DONE
 
-  artists = db.relationship('Artist', secondary = 'shows') #relates Venue to Show via Artist
-  shows = db.relationship('Show', backref='Venue', lazy=True) #Show and Venue are the name of the model class, not the name of the table
+  artists = db.relationship('Artist', secondary = 'shows') #relates Venue to Show via Artist, this is a bidirectional relationship
 
   # return a dictionary of venues
   def venue_to_dictionary(self):
@@ -70,8 +69,7 @@ class Artist(db.Model):
   seeking_description = db.Column(db.String(500))
   # TODO: implement any missing fields, as a database migration using Flask-Migrate - DONE
 
-  venues = db.relationship('Venue', secondary='shows') #relates Artist to Show via Venue
-  shows = db.relationship('Show', backref = 'Artist', lazy = True) #Show and Artist are the name of the model class, not the name of the table
+  venues = db.relationship('Venue', secondary='shows') #relates Artist to Show via Venue, this is a bidirectional relationship
 
   # return a dictionary of artists
   def artist_to_dictionary(self):
