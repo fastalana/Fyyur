@@ -108,22 +108,34 @@ def search_venues():
 
 @app.route('/venues/<int:venue_id>')
 def show_venue(venue_id):
-  # shows the venue page with the given venue_id
-  # TODO: replace with real venue data from the venues table, using venue_id
   venue = Venue.query.get(venue_id)
 
-  past_shows = list(filter(lambda x: x.start_time < datetime.today(), venue.shows))
-  upcoming_shows = list(filter(lambda x: x.start_time >= datetime.today(), venue.shows))
+  past_shows_query = Show.query.join(Artist).filter(Show.venue_id==venue_id).filter(Show.start_time<datetime.now()).all()
+  past_shows = []
 
-  past_shows = list(map(lambda x: x.show_artist(), past_shows))
-  upcoming_shows = list(map(lambda x: x.show_artist(), upcoming_shows))
+  for show in past_shows_query:
+    past_shows.append({
+      "artist_id": show.artist_id,
+      "artist_name": show.artist.name,
+      "artist_image_link": show.artist.image_link,
+      "start_time": show.start_time.strftime('%Y-%m-%d %H:%M:%S')
+    })
+
+  upcoming_shows_query = Show.query.join(Artist).filter(Show.venue_id==venue_id).filter(Show.start_time>=datetime.now()).all()
+  upcoming_shows = []
+
+  for show in upcoming_shows_query:
+    upcoming_shows.append({
+      "artist_id": show.artist_id,
+      "artist_name": show.artist.name,
+      "artist_image_link": show.artist.image_link,
+      "start_time": show.start_time.strftime('%Y-%m-%d %H:%M:%S')
+    })
 
   data = venue.venue_to_dictionary()
-
   data['past_shows'] = past_shows
-  data['past_shows_count'] = len(past_shows)
-
   data['upcoming_shows'] = upcoming_shows
+  data['past_shows_count'] = len(past_shows)
   data['upcoming_shows_count'] = len(upcoming_shows)
 
   return render_template('pages/show_venue.html', venue=data)
@@ -205,23 +217,37 @@ def search_artists():
 
 @app.route('/artists/<int:artist_id>')
 def show_artist(artist_id):
-    artist = Artist.query.get(artist_id)
+  artist = Artist.query.get(artist_id)
 
-    past_shows = list(filter(lambda x: x.start_time < datetime.today(), artist.shows))
-    upcoming_shows = list(filter(lambda x: x.start_time >= datetime.today(), artist.shows))
+  past_shows_query = Show.query.join(Venue).filter(Show.artist_id==artist_id).filter(Show.start_time<datetime.now()).all()
+  past_shows = []
 
-    past_shows = list(map(lambda x: x.show_venue(), past_shows))
-    upcoming_shows = list(map(lambda x: x.show_venue(), upcoming_shows))
+  for show in past_shows_query:
+    past_shows.append({
+      "venue_id": show.venue_id,
+      "venue_name": show.venue.name,
+      "artist_image_link": show.venue.image_link,
+      "start_time": show.start_time.strftime('%Y-%m-%d %H:%M:%S')
+    })
 
-    data = artist.artist_to_dictionary()
+  upcoming_shows_query = Show.query.join(Venue).filter(Show.artist_id==artist_id).filter(Show.start_time>=datetime.now()).all()
+  upcoming_shows = []
 
-    data['past_shows'] = past_shows
-    data['past_shows_count'] = len(past_shows)
+  for show in upcoming_shows_query:
+    upcoming_shows.append({
+      "venue_id": show.venue_id,
+      "venue_name": show.venue.name,
+      "artist_image_link": show.venue.image_link,
+      "start_time": show.start_time.strftime('%Y-%m-%d %H:%M:%S')
+    })
 
-    data['upcoming_shows'] = upcoming_shows
-    data['upcoming_shows_count'] = len(upcoming_shows)
+  data = artist.artist_to_dictionary()
+  data['past_shows'] = past_shows
+  data['upcoming_shows'] = upcoming_shows
+  data['past_shows_count'] = len(past_shows)
+  data['upcoming_shows_count'] = len(upcoming_shows)
 
-    return render_template('pages/show_artist.html', artist=data)
+  return render_template('pages/show_artist.html', artist=data)
 
 #  Update
 #  ----------------------------------------------------------------
