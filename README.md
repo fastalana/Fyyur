@@ -73,3 +73,10 @@ To start and run the local development server,
   ```
 
 3. Navigate to Home page [http://localhost:5000](http://localhost:5000)
+
+
+## Udacity Information:
+This code was a project for the Full Stack Web Developer Nanodegree. Resource links are listed below:
+* [Full Stack Web Developer](https://www.udacity.com/course/intro-to-programming-nanodegree--nd000)
+* [Rubric](https://review.udacity.com/#!/rubrics/2653/view)
+* [Starter Code](https://github.com/udacity/FSND/tree/master/projects/01_fyyur/starter_code)
